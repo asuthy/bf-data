@@ -14,6 +14,8 @@ exports.up = function(knex, Promise) {
             table.integer('selection_id');
             table.text('selection');
             table.boolean('win_flag');
+            table.decimal('pre_total_matched', 10, 2);
+            table.integer('pre_total_bets');
             table.timestamp('created_at');
             table.increments('id').primary();
         })
