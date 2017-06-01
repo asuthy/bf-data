@@ -1,10 +1,11 @@
 'use strict';
 
-const tableName = 'horse_racing';
+const tableName = 'betfair_horse_data';
 
 exports.up = function(knex, Promise) {
     return Promise.all([
         knex.schema.createTableIfNotExists(tableName, function(table) {
+            table.integer('import_batch_year');
             table.integer('sports_id');
             table.integer('event_id');
             table.timestamp('settled_date');
@@ -23,7 +24,6 @@ exports.up = function(knex, Promise) {
             table.timestamp('first_taken');
             table.boolean('win_flag');
             table.text('in_play');
-            table.text('distance');
             table.timestamp('created_at');
             table.increments('id').primary();
         })

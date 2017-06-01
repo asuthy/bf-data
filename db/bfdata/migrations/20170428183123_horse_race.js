@@ -1,6 +1,6 @@
 'use strict';
 
-const tableName = 'horse_racing_race';
+const tableName = 'horse_race';
 
 exports.up = function(knex, Promise) {
     return Promise.all([
@@ -9,13 +9,12 @@ exports.up = function(knex, Promise) {
             table.text('country');
             table.text('event');
             table.text('course');
+            table.text('venue');
             table.text('distance');
+            table.text('race_class');
+            table.integer('runners');
             table.timestamp('actual_off');
-            table.integer('selection_id');
-            table.text('selection');
-            table.boolean('win_flag');
-            table.decimal('pre_total_matched', 10, 2);
-            table.integer('pre_total_bets');
+            table.integer('matches_at_156');
             table.timestamp('created_at');
             table.increments('id').primary();
         })
