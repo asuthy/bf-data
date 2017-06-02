@@ -24,3 +24,9 @@ exports.down = function(knex, Promise) {
         knex.schema.dropTableIfExists(tableName)
     ]);
 };
+
+/*
+Add these
+
+CREATE INDEX CONCURRENTLY "horse_runner1" ON "horse_runner" ("event_id", "selection_id");
+*/

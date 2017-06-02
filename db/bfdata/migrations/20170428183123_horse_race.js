@@ -14,6 +14,12 @@ exports.up = function(knex, Promise) {
             table.text('race_class');
             table.integer('runners');
             table.timestamp('actual_off');
+            table.integer('off_hour');
+            table.integer('off_day');
+            table.integer('off_week');
+            table.integer('off_quarter');
+            table.integer('off_year');
+            table.decimal('favourite_sp_odds', 8, 2);
             table.integer('matches_at_156');
             table.timestamp('created_at');
             table.increments('id').primary();
@@ -26,3 +32,9 @@ exports.down = function(knex, Promise) {
         knex.schema.dropTableIfExists(tableName)
     ]);
 };
+
+/*
+Add this
+
+CREATE INDEX CONCURRENTLY "horse_race2" ON "horse_race" ("course", "venue");
+*/

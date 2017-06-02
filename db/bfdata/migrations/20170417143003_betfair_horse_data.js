@@ -35,3 +35,10 @@ exports.down = function(knex, Promise) {
         knex.schema.dropTableIfExists(tableName)
     ]);
 };
+
+/*
+Add these
+CREATE INDEX CONCURRENTLY "betfair_horse_data2" ON "betfair_horse_data" ("event_id", "selection_id");
+
+CREATE INDEX CONCURRENTLY "betfair_horse_data3" ON "betfair_horse_data" ("in_play");
+*/
