@@ -11,7 +11,15 @@ exports.up = function(knex, Promise) {
             table.text('selection');
             table.decimal('sp_odds', 8, 2);
             table.decimal('min_in_play_odds', 8, 2);
+            table.boolean('matched_at_141');
+            table.boolean('matched_at_152');
+            table.boolean('matched_at_153');
+            table.boolean('matched_at_155');
             table.boolean('matched_at_156');
+            table.boolean('matched_at_158');
+            table.boolean('matched_at_161');
+            table.boolean('matched_at_181');
+            table.boolean('matched_at_200');
             table.boolean('win_flag');
             table.timestamp('created_at');
             table.increments('id').primary();

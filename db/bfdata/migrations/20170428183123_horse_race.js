@@ -20,7 +20,15 @@ exports.up = function(knex, Promise) {
             table.integer('off_quarter');
             table.integer('off_year');
             table.decimal('favourite_sp_odds', 8, 2);
+            table.integer('matches_at_141');
+            table.integer('matches_at_152');
+            table.integer('matches_at_153');
+            table.integer('matches_at_155');
             table.integer('matches_at_156');
+            table.integer('matches_at_158');
+            table.integer('matches_at_161');
+            table.integer('matches_at_181');
+            table.integer('matches_at_200');
             table.timestamp('created_at');
             table.increments('id').primary();
         })

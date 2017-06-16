@@ -39,9 +39,25 @@ if (app.races) {
 
     db.knex.raw(`delete from horse_runner; insert into horse_runner (event_id, actual_off, selection_id, selection, min_in_play_odds, matched_at_156, win_flag, created_at) select distinct event_id, actual_off, selection_id, selection, min(odds) as min_in_play_odds, case when min(odds) <= 1.56 then true else false end as matched_at_156, win_flag, now() from betfair_horse_data where in_play = 'IP' group by event_id, actual_off, selection_id, selection, win_flag;
         update horse_runner set sp_odds = sp_odds.sp_odds from (select d.event_id, d.selection_id, min(d.odds) as sp_odds from (select event_id, selection_id, max(latest_taken) as max_latest_taken from betfair_horse_data where in_play = 'PE' group by event_id, selection_id) as last_match, betfair_horse_data d where d.in_play = 'PE' and d.event_id = last_match.event_id and d.selection_id = last_match.selection_id and d.latest_taken = last_match.max_latest_taken group by d.event_id, d.selection_id) as sp_odds where horse_runner.event_id = sp_odds.event_id and horse_runner.selection_id = sp_odds.selection_id;
+        update horse_runner set matched_at_141 = true where min_in_play_odds <= 1.41;
+        update horse_runner set matched_at_152 = true where min_in_play_odds <= 1.52;
+        update horse_runner set matched_at_153 = true where min_in_play_odds <= 1.53;
+        update horse_runner set matched_at_155 = true where min_in_play_odds <= 1.55;
+        update horse_runner set matched_at_158 = true where min_in_play_odds <= 1.58;
+        update horse_runner set matched_at_161 = true where min_in_play_odds <= 1.61;
+        update horse_runner set matched_at_181 = true where min_in_play_odds <= 1.81;
+        update horse_runner set matched_at_200 = true where min_in_play_odds <= 2.00;
         delete from horse_race; insert into horse_race(event_id, country, event, course, actual_off, created_at, distance, race_class, off_hour, off_day, off_week, off_quarter, off_year) select distinct r.event_id, d.country, d.event, d.course, r.actual_off, now(), split_part(event, ' ', 1) as distance, trim(replace(event, split_part(event, ' ', 1), '')) as race_class, date_part('hour', r.actual_off), date_part('dow', r.actual_off), date_part('week', r.actual_off), date_part('quarter', r.actual_off), date_part('year', r.actual_off) from horse_runner r, betfair_horse_data d where r.event_id = d.event_id and r.selection_id = d.selection_id;
         update horse_race set runners = runners.runners from (select event_id, count(1) as runners from horse_runner group by event_id) as runners where horse_race.event_id = runners.event_id;
+        update horse_race set matches_at_141 = matches.matches_at_141 from (select event_id, count(1) as matches_at_141 from horse_runner where matched_at_141 = true group by event_id) as matches where horse_race.event_id = matches.event_id;
+        update horse_race set matches_at_152 = matches.matches_at_152 from (select event_id, count(1) as matches_at_152 from horse_runner where matched_at_152 = true group by event_id) as matches where horse_race.event_id = matches.event_id;
+        update horse_race set matches_at_153 = matches.matches_at_153 from (select event_id, count(1) as matches_at_153 from horse_runner where matched_at_153 = true group by event_id) as matches where horse_race.event_id = matches.event_id;
+        update horse_race set matches_at_155 = matches.matches_at_155 from (select event_id, count(1) as matches_at_155 from horse_runner where matched_at_155 = true group by event_id) as matches where horse_race.event_id = matches.event_id;
         update horse_race set matches_at_156 = matches.matches_at_156 from (select event_id, count(1) as matches_at_156 from horse_runner where matched_at_156 = true group by event_id) as matches where horse_race.event_id = matches.event_id;
+        update horse_race set matches_at_158 = matches.matches_at_158 from (select event_id, count(1) as matches_at_158 from horse_runner where matched_at_158 = true group by event_id) as matches where horse_race.event_id = matches.event_id;
+        update horse_race set matches_at_161 = matches.matches_at_161 from (select event_id, count(1) as matches_at_161 from horse_runner where matched_at_161 = true group by event_id) as matches where horse_race.event_id = matches.event_id;
+        update horse_race set matches_at_181 = matches.matches_at_181 from (select event_id, count(1) as matches_at_181 from horse_runner where matched_at_181 = true group by event_id) as matches where horse_race.event_id = matches.event_id;
+        update horse_race set matches_at_200 = matches.matches_at_200 from (select event_id, count(1) as matches_at_200 from horse_runner where matched_at_200 = true group by event_id) as matches where horse_race.event_id = matches.event_id;
         update horse_race set favourite_sp_odds = favourite.min_sp_odds from (select event_id, min(sp_odds) as min_sp_odds from horse_runner group by event_id) as favourite where horse_race.event_id = favourite.event_id;`)
         .then(function() {
             db.destroy();
